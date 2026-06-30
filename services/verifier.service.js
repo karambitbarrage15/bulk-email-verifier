@@ -1,6 +1,6 @@
 const {readCSVFile}=require('../utils/csvReader');
 const {verifySyntax}=require('./syntax.service');
-const {extractDomain,checkDomain}=require('./dns.service');
+const {extractDomain,checkDomain,checkMx}=require('./dns.service');
 const verifyEmail=async(filePath)=>{
   const emails=await readCSVFile(filePath);
   const results=[];
@@ -16,7 +16,12 @@ const verifyEmail=async(filePath)=>{
       results.push({email,status:'Bounce'});
       continue;
     }
+    const mxValid=await checkMx(domain);
+  if(!mxValid){
+    results.push({email,status:'Bounce'});
+  }
     results.push({email,status:'Valid'});
+    continue;
   }
   return results;
 };
