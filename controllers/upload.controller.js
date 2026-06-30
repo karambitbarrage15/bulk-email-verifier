@@ -1,10 +1,9 @@
 
 const {verifySyntax}=require('../services/syntax.service');
-
-const uploadFile=(req,res)=>{
- console.log(req.file);
- const result=verifySyntax(email);;
- res.send(`The email ${email} is ${result ? 'valid' : 'invalid'}.`);
-};
+const {readCsv}=require('../services/csv.service');
+const uploadFile=async(req,res)=>{
+ const emails=await readCsv(req.file.path);
+console.log(emails);
+res.json(emails);};
 
 module.exports={uploadFile};
