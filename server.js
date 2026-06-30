@@ -2,7 +2,7 @@ const express= require('express');
 const app=express();
 const uploadsRoutes=require('./routes/uploads.route');
 const path=require('path');
-const PORT=3000;
+const PORT = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname,'public')));
 
 app.use('/uploads',uploadsRoutes);
