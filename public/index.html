@@ -1,19 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bulk Email Verifier</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <h1>Bulk Email Verifier</h1>
+    <div class="container">
 
-    <form action="/uploads" method="POST" enctype="multipart/form-data">
-        <input type="file" name="file" accept=".csv" required>
-        <br><br>
-        <button type="submit">Upload CSV</button>
-    </form>
+        <h1>Bulk Email Verifier</h1>
+
+        <form id="uploadForm">
+
+            <input
+                type="file"
+                id="file"
+                name="file"
+                accept=".csv"
+                required>
+
+            <button id="uploadBtn" type="submit">
+                Upload CSV
+            </button>
+
+        </form>
+
+        <p id="message"></p>
+
+        <div id="summary"></div>
+
+        <table id="resultsTable">
+
+            <thead>
+
+                <tr>
+                    <th>#</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            </tbody>
+
+        </table>
+
+        <br>
+
+        <a
+            id="downloadLink"
+            href="/outputs/results.csv"
+            download
+            style="display:none;">
+
+            <button type="button">
+                Download Results CSV
+            </button>
+
+        </a>
+
+    </div>
+
+    <script src="script.js"></script>
 
 </body>
+
 </html>

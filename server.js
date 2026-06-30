@@ -9,7 +9,7 @@ app.use('/uploads',uploadsRoutes);
 app.get('/',(req,res)=>{
   res.send("Welcome to the Bulk Email Verifier");
 });
-
+app.use('/outputs',express.static(path.join(__dirname,'outputs')));
 app.listen(PORT,()=>{
   console.log(`Server is running on port ${PORT}`);
 });

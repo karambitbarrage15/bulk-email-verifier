@@ -2,7 +2,7 @@ const { readCsv } = require("./csv.service");
 const { verifySyntax } = require("./syntax.service");
 const { extractDomain, checkDomain, checkMx } = require("./dns.service");
 const { verifySMTP } = require("./smtp.service");
-
+const {writeResults} = require("./output.service");
 const verifyEmail = async (filePath) => {
     const emails = await readCsv(filePath);
 
@@ -56,7 +56,7 @@ console.log(email, "Valid Syntax");
             status:"Valid",
         });
     }
-
+await writeResults(results);
     return results;
 };
 
