@@ -10,6 +10,7 @@ async function processEmail(email) {
 
     if (!syntaxValid) {
         console.log(email, "Invalid Syntax");
+
         return {
             email,
             status: "Bounce"
@@ -24,6 +25,7 @@ async function processEmail(email) {
 
     if (!domainValid) {
         console.log(domain, "Invalid Domain");
+
         return {
             email,
             status: "Bounce"
@@ -36,6 +38,7 @@ async function processEmail(email) {
 
     if (!mxRecords || mxRecords.length === 0) {
         console.log(domain, "No MX Records Found");
+
         return {
             email,
             status: "Bounce"
@@ -48,16 +51,17 @@ async function processEmail(email) {
 
     const mxServer = mxRecords[0].exchange;
 
-    // Uncomment when SMTP is implemented
-    // const smtpResult = await verifySMTP(email, mxServer);
-    // return {
-    //     email,
-    //     status: smtpResult
-    // };
+    let smtpResult = "Unknown";
+
+    try {
+        smtpResult = await verifySMTP(email, mxServer);
+    } catch (error) {
+        console.log("SMTP Verification Failed:", error.code || error.message);
+    }
 
     return {
         email,
-        status: "Valid"
+        status: smtpResult
     };
 }
 
@@ -65,7 +69,7 @@ const verifyEmail = async (filePath) => {
 
     const emails = await readCsv(filePath);
 
-    const batchSize = 10;
+    const batchSize = 1;
 
     const results = [];
 
@@ -73,11 +77,17 @@ const verifyEmail = async (filePath) => {
 
         const batch = emails.slice(i, i + batchSize);
 
+        console.log(
+            `Processing batch ${Math.floor(i / batchSize) + 1} (${batch.length} emails)`
+        );
+
         const batchResults = await Promise.all(
             batch.map(email => processEmail(email))
         );
 
         results.push(...batchResults);
+
+        await new Promise(resolve => setTimeout(resolve, 1500));
     }
 
     await writeResults(results);
