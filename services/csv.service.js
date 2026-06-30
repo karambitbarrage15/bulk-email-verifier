@@ -5,8 +5,8 @@ const readCsv=(filePath)=>{
 return new Promise((resolve,reject)=>{
   const emails=[];
   
-   fs.createReadStream(filePath).pipe(csv()).on("data", (row) => {
-    emails.push(row.email);
+   fs.createReadStream(filePath).pipe(csv()).on("data", (row) => {console.log(row);
+   emails.push(row["Person Email"]);
     }).on("end", () => {
                 resolve(emails);
                        }).on("error", (error) => {

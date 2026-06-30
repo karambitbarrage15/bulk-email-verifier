@@ -16,10 +16,10 @@ const checkDomain=async(domain)=>{try{await dns.resolveMx(domain);
 const checkMx=async(domain)=>{
   try{
 const records=await dns.resolveMx(domain);
-return records.length>0;
+return records;
 
   }catch(error){
-    return false;
+    return null;
   }
 };
 module.exports={extractDomain,checkDomain,checkMx };
